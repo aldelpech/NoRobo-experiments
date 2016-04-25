@@ -57,7 +57,7 @@ long sendInterval = SLOW;                               // interval between Butt
 
 //motor control-------------------------------------------------------
 
-#define MAX_POWER   150   // up to 255
+#define MAX_POWER   255   // up to 255
 
 // moteur de gauche
 int motorG_enable = 10; //pwm sur timer1
@@ -401,6 +401,10 @@ void PID_and_motor_comd()
     R_Speed += rot_Speed;
     L_Speed -= rot_Speed;
 
+    // analog write to motors can not be more than MAX_POWER (255 or less)
+    if (R_Speed > MAX_POWER) R_Speed = MAX_POWER;
+    if (L_Speed > MAX_POWER) L_Speed = MAX_POWER;
+    
     if(joyY>0) {
       Robot_Direction = true ; // will go forward
     }else {
